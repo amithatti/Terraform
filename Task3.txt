@@ -1,0 +1,37 @@
+Task 3: To install Httpd
+
+->For this we have created 3 files
+  - One is for "provider"
+  - One is for "resource"
+  - One is to write the shell script
+
+Important: All those 3 files should be present in same directory
+
+File - provider:
+
+	provider "aws"{
+	   region="ap-south-1"
+	   access_key="<paste the access key>"
+	   secret_key="<paste the secret key>"
+	}
+
+File - resource:
+
+	resource "aws_instance" "example"{
+	   ami ="ami-0451f2687182e0411"
+	   instance_type="t2.micro"
+	   key_name="sample"
+	   count="1"
+	   tags={
+	      Name="ExampleInstance"
+	   }
+	   user_data=file("data.sh")
+	}
+
+File - data:
+
+	#!/bin/bash
+	yum update -y
+	yum install httpd -y
+	systemctl start httpd
+	systemctl enable httpd
