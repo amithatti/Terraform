@@ -1,0 +1,33 @@
+Task 1: To Launch one Instanace
+
+provider "aws" {
+   region = "ap-south-1"
+   access_key="<paste access key>"
+   secret_key="<paste secret key>"
+}
+resource "aws_instance" "example-1"{
+   ami ="<paste AMI id>"
+   instance_type="t2.micro"
+   key_name="sample"
+   count="1"
+   tags={
+      Name="ExampleInstance"
+   }
+}
+
+
+Commands used: (1-3 To install Terraform)
+
+    1  sudo yum install -y yum-utils shadow-utils
+    2  sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+    3  sudo yum -y install terraform
+    4  terraform --version
+    5  mkdir a
+    6  cd a
+    7  vi ter.tf
+    8  terraform init
+    9  terraform validate
+   10  terraform plan
+   11  terraform apply
+   12  terraform destroy
+
