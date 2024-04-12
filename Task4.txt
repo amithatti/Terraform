@@ -1,0 +1,59 @@
+Task 4: To create security group
+
+->For this we have created 4 files
+  - One is for "provider"
+  - One is for "resource"
+  - One is to write the shell script
+  - One is to write security group
+
+Important: All those 3 files should be present in same directory
+
+File - provider:
+
+	provider "aws"{
+	   region="ap-south-1"
+	   access_key="<paste the access key>"
+	   secret_key="<paste the secret key>"
+	}
+
+File - resource:
+
+	resource "aws_instance" "example"{
+	   ami ="ami-0451f2687182e0411"
+	   instance_type="t2.micro"
+	   key_name="sample"
+	   count="1"
+	   tags={
+	      Name="ExampleInstance"
+	   }
+	   security_groups=[aws_security_group.example_sg.name]
+	   user_data=file("data.sh")
+	}
+
+File - data:
+
+	#!/bin/bash
+	yum update -y
+	yum install httpd -y
+	systemctl start httpd
+	systemctl enable httpd
+
+File - security group:
+	resource "aws_security_group" "example_sg"{
+	   tags={
+	      Name="securityexample"
+	   }
+	   ingress{
+	      from_port=0
+	      to_port=0
+	      protocol="-1"
+	      cidr_blocks=["0.0.0.0/0"]
+	   }
+	   egress{
+	      from_port=0
+	      to_port=0
+	      protocol="-1"
+	      cidr_blocks=["0.0.0.0/0"]
+	   }
+	}
+
